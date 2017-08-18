@@ -1,3 +1,8 @@
+// Copyright (c) 2017 David Kim
+// This program is licensed under the "MIT License".
+// Please see the file COPYING in the source
+// distribution of this software for license terms.
+
 var express = require('express'),
 	app = express(),
 	path = require('path'),
@@ -100,7 +105,7 @@ app.use(function (req, res, next) {
 	next();
 });
 
-//  Express routing for product CRUD operations --------------------------------------------------------------------------------
+// -------------------- END - Express routing for product CRUD operations --------------------
 
 // username variable
 var uname = "";
@@ -166,7 +171,7 @@ app.delete('/productlist/:id', function (req, res) {
 	});
 });
 
-//  Express routing for product CRUD operations  --------------------------------------------------------------------------------
+// -------------------- START - Express routing for product CRUD operations --------------------
 
 // setup static routes
 app.use(express.static(__dirname + '/public'));

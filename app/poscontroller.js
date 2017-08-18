@@ -1,6 +1,11 @@
+// Copyright (c) 2017 David Kim
+// This program is licensed under the "MIT License".
+// Please see the file COPYING in the source
+// distribution of this software for license terms.
+
 var app = angular.module('OpenPOS', []);
 
-// change Angular's {{foo}} -> {[{bar}]} to avoid clashing with Handlebars syntax
+// modify how Angular interpolates {{foo}} -> {[{bar}]} to avoid clashing with Handlebars syntax
 app.config(function ($interpolateProvider) {
 	$interpolateProvider.startSymbol('[[');
 	$interpolateProvider.endSymbol(']]');
@@ -8,7 +13,6 @@ app.config(function ($interpolateProvider) {
 
 // main controller
 app.controller('PosController', function ($scope, $http) {
-	//	console.log("Hello world from PosController");
 
 	$scope.drinks = [];
 	$scope.foods = [];
@@ -25,6 +29,7 @@ app.controller('PosController', function ($scope, $http) {
 			'category': 'Other'
 		}
     ]
+	
 	$scope.selectedCategory = '';
 	$scope.order = [];
 	$scope.new = {};
@@ -104,10 +109,8 @@ app.controller('PosController', function ($scope, $http) {
 		$http.get('/productlist').success(function (response) {
 			$scope.productlist = response;
 			$scope.product = "";
-			//			console.log("RESPONSE: " + response);
 
 			angular.forEach(response, function (item, key) {
-				//				console.log("pushing --> " + item.name);
 				if (item.category === "Foods") {
 					$scope.foods.push({
 						id: item._id,
@@ -134,22 +137,21 @@ app.controller('PosController', function ($scope, $http) {
 
 
 function AppCtrl($scope, $http) {
-	//	console.log("Hello world from AppCtrl");
-
+	
 	var refresh = function () {
 		console.log("Refreshing menu");
 
 		$http.get('/productlist').success(function (response) {
-			$scope.foods.length = 0; // clear all the buttons from the Menu Panel
-			$scope.drinks.length = 0; // clear all the buttons from the Menu Panel
-			$scope.other.length = 0; // clear all the buttons from the Menu Panel
+			
+			// clear all the buttons from the Menu Panel
+			$scope.foods.length = 0;
+			$scope.drinks.length = 0;
+			$scope.other.length = 0;
 
 			$scope.productlist = response;
 			$scope.product = "";
-			//			console.log("RESPONSE: " + response);
 
 			angular.forEach(response, function (item, key) {
-				//				console.log("adding menu item --> " + item.name);
 
 				if (item.category === "Foods") {
 					$scope.foods.push({
@@ -174,24 +176,23 @@ function AppCtrl($scope, $http) {
 		});
 	};
 
+	// do an initial refresh after the user logs in
 	refresh();
 
 	$scope.addProduct = function () {
 		var nameStr = $scope.product.name;
 		var priceStr = $scope.product.price;
-		var priceRegex = /^((\d{0,3}(,\d{3})+)|\d+)(\.\d{2})?$/; // valid currency values only
+		var priceRegex = /^((\d{0,3}(,\d{3})+)|\d+)(\.\d{2})?$/; // allow valid currency values only
 
 		if (nameStr.length > 36) {
 			alert("Item name can be a maximum of 36 characters long.");
 		} else if (!priceRegex.test(priceStr)) {
 			alert("Please enter a valid price.");
 		} else {
-			//			alert("Adding item: " + nameStr);
 			$scope.product.category = $scope.selectedCategory;
 			$scope.product.user = $scope.uname;
 			console.log($scope.product);
 			$http.post('/productlist', $scope.product).success(function (response) {
-				//			console.log("addProduct: " + $scope.product);
 				console.log('addProduct successful!');
 				refresh(); // refresh the Menu Panel
 			});
@@ -201,7 +202,6 @@ function AppCtrl($scope, $http) {
 	$scope.remove = function (id) {
 		console.log(id);
 		$http.delete('/productlist/' + id).success(function (response) {
-			//			console.log("remove: " + response);
 			console.log('remove successful!');
 			refresh(); // refresh the Menu Panel
 		});
@@ -209,12 +209,12 @@ function AppCtrl($scope, $http) {
 }
 
 function TimeCtrl($scope, $timeout) {
-	$scope.clock = "loading clock..."; // initialize the time variable
-	$scope.tickInterval = 1000 //ms
+	$scope.clock = "loading clock...";
+	$scope.tickInterval = 1000  // ms
 
 	var tick = function () {
-		$scope.clock = Date.now() // get the current time
-		$timeout(tick, $scope.tickInterval); // reset the timer
+		$scope.clock = Date.now()  // get the current time
+		$timeout(tick, $scope.tickInterval);  // reset the timer
 	}
 
 	// start the timer

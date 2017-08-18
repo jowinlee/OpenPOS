@@ -63,7 +63,7 @@ https://docs.mongodb.com/manual/installation/
 
 ### MongoDB Atlas Setup (Optional)
 
-[Create a free account](https://www.mongodb.com/cloud/atlas)
+[Create a free sandbox](https://www.mongodb.com/cloud/atlas)
 
 ## Quick Start
 

@@ -1,7 +1,12 @@
+// Copyright (c) 2017 David Kim
+// This program is licensed under the "MIT License".
+// Please see the file COPYING in the source
+// distribution of this software for license terms.
+
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
-// User Schema
+// user schema
 var UserSchema = mongoose.Schema({
 	username: {
 		type: String,
@@ -18,6 +23,7 @@ var UserSchema = mongoose.Schema({
 	}
 });
 
+// expose the user schema as a module
 var User = module.exports = mongoose.model('User', UserSchema);
 
 module.exports.createUser = function (newUser, callback) {
